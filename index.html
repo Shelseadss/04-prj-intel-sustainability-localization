@@ -1,11 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <!-- Basic page settings help the browser display the document correctly. -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Intel: Sustainability Through the Ages</title>
+  <!-- Bootstrap switches between left-to-right and right-to-left styles below. -->
+  <link id="bootstrap-css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <script>
+    // Use RTL text flow for languages that are written from right to left.
+    const browserLanguage = navigator.language.toLowerCase();
+    const languageCode = browserLanguage.split('-')[0];
+    const rtlLanguageCodes = ['ar', 'dv', 'fa', 'he', 'ku', 'ps', 'ur', 'yi'];
+    const isRtl = rtlLanguageCodes.includes(languageCode);
+    const isArabic = browserLanguage.startsWith('ar');
+    document.documentElement.lang = languageCode;
+    document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
+    document.getElementById('bootstrap-css').href = isRtl
+      ? 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css'
+      : 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+
+    // Google Translate updates the page language after the page has loaded.
+    const bootstrapLtrUrl = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';
+    const bootstrapRtlUrl = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css';
+
+    function updateTextDirection() {
+      const translatedRtl = document.body?.classList.contains('translated-rtl');
+      const translatedLtr = document.body?.classList.contains('translated-ltr');
+      const pageLanguage = (document.documentElement.lang || 'en').toLowerCase();
+      const languageCode = pageLanguage.split('-')[0];
+      const isRtlLanguage = translatedRtl || (!translatedLtr && rtlLanguageCodes.includes(languageCode));
+
+      document.documentElement.dir = isRtlLanguage ? 'rtl' : 'ltr';
+      if (document.body) {
+        document.body.dir = isRtlLanguage ? 'rtl' : 'ltr';
+      }
+
+      const bootstrapStylesheet = document.getElementById('bootstrap-css');
+      bootstrapStylesheet.href = isRtlLanguage ? bootstrapRtlUrl : bootstrapLtrUrl;
+    }
+
+    // Watch for Google Translate changing the language or adding its direction class.
+    const languageObserver = new MutationObserver(updateTextDirection);
+    languageObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['lang', 'class']
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateTextDirection();
+      languageObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    });
+  </script>
 
   <!-- Load the fonts used by the headings and body text. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,6 +65,8 @@
   <style>
   @import url('https://fonts.googleapis.com/css2?family=Intel+One+Mono:ital,wght@0,300..700;1,300..700&display=swap');
   </style>
+
+  
 </head>
 <body>
 
@@ -37,7 +90,6 @@
     <!-- These images create the visual introduction at the top of the page. -->
     <div class="hero-images">
       <img class="hero-logo" src="img/intel-header-logo.svg" alt="Intel Logo" />
-      <img class="hero-processor" src="img/article_cover.jpg" alt="Processor Hero" />
     </div>
     <h1>
       SUSTAINABILITY
@@ -100,15 +152,64 @@
       </div>
     </div>
 
+    <!-- Bootstrap grid section: one column on small screens and three on medium screens. -->
+    <section class="container py-5 sustainability-priorities" aria-labelledby="sustainability-pillars-title">
+      <h2 id="sustainability-pillars-title" class="text-center mb-4">Sustainability Priorities</h2>
+      <div class="row g-4">
+        <div class="col-12 col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">RISE Strategy</h2>
+              <p class="card-text">
+                Under its RISE (Responsible, Inclusive, Sustainable, Enabling) strategy,
+                Intel sets ambitious 2030 goals, including driving industry-wide
+                progress on climate action, water stewardship, and waste reduction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Commitment</h2>
+              <p class="card-text">
+                In 2022, Intel pledged to achieve net-zero greenhouse gas emissions
+                (Scope 1 and 2) by 2040. This commitment builds on decades of
+                environmental initiatives and partnerships across the semiconductor
+                industry.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Water &amp; Waste</h2>
+              <p class="card-text">
+                Intel conserves billions of gallons of water annually and collaborates
+                with local communities to restore watersheds. Intel also upcycles and
+                recycles materials to reduce waste and advance a circular economy.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </section>
 
   <!-- The timeline section contains milestones and supporting photos. -->
-  <section>
+  <section class="timeline-section">
     <!-- Section heading tells visitors what the cards represent. -->
     <h2 class="timeline-heading">Intel's Sustainability Milestones</h2>
+      <!-- Bootstrap controls the responsive milestone card columns. -->
+      <div class="row g-5 justify-content-center">
 
     <!-- Card 1: Intel is founded. -->
-    <div id="Card-1-1968">
+      <div class="col-12 col-md-6 col-xl-4">
+      <div id="Card-1-1968" class="milestone-card">
       <h2>1968</h2>
       <h3>Intel Founded</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -119,9 +220,11 @@
         decades of technological innovation.
       </p>
     </div>
+    </div>
 
     <!-- Card 2: Intel releases the first commercial microprocessor. -->
-    <div id="Card-2-1971">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-2-1971" class="milestone-card">
       <h2>1971</h2>
       <h3>First Microprocessor</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -132,9 +235,11 @@
         of computing devices.
       </p>
     </div>
+    </div>
 
     <!-- Card 3: Intel launches the 8086 processor. -->
-    <div id="Card-3-1978">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-3-1978" class="milestone-card">
       <h2>1978</h2>
       <h3>8086 Processor</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -144,14 +249,18 @@
         that drives countless PCs and servers in the modern era.
       </p>
     </div>
-
-    <!-- A full-width photo separates the first group of cards from the next group. -->
-    <div class="image_lands_one">
-      <img src="img/intel_workers.jpg" alt="[Photo: courtesy IRC] BY Ben Paynter" />
     </div>
 
+    <!-- Temporarily hidden separator image. -->
+    <!--
+    <div class="timeline-image image_lands_one">
+      <img src="img/intel_workers.jpg" alt="[Photo: courtesy IRC] BY Ben Paynter" />
+    </div>
+    -->
+
     <!-- Card 4: Intel introduces the 386 processor. -->
-    <div id="Card-4-1985">
+      <div class="col-12 col-md-6 col-xl-4">
+      <div id="Card-4-1985" class="milestone-card">
       <h2>1985</h2>
       <h3>386 Processor</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -162,9 +271,11 @@
         personal computers.
       </p>
     </div>
+    </div>
 
     <!-- Card 5: Intel reaches its peak operational emissions. -->
-    <div id="Card-5-2006">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-5-2006" class="milestone-card">
       <h2>2006</h2>
       <h3>Peak GHG Emissions</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -176,9 +287,11 @@
         manufacturing to reverse this trend.
       </p>
     </div>
+    </div>
 
     <!-- Card 6: Intel launches its RISE strategy. -->
-    <div id="Card-6-2020">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-6-2020" class="milestone-card milestone-card--top-image">
       <h2>2020</h2>
       <h3>RISE Strategy</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -189,14 +302,18 @@
         progress on climate action, water stewardship, and waste reduction.
       </p>
     </div>
-
-    <!-- A second full-width photo separates the middle group of cards. -->
-    <div class="image_lands_two">
-      <img src="img/ceo.jpg" alt="Intel's new CEO explores big shift in chip manufacturing business" />
     </div>
 
+    <!-- Temporarily hidden separator image. -->
+    <!--
+    <div class="timeline-image image_lands_two">
+      <img src="img/ceo.jpg" alt="Intel's new CEO explores big shift in chip manufacturing business" />
+    </div>
+    -->
+
     <!-- Card 7: Intel announces its net-zero commitment. -->
-    <div id="Card-7-2022">
+      <div class="col-12 col-md-6 col-xl-4">
+      <div id="Card-7-2022" class="milestone-card milestone-card--top-image">
       <h2>2022</h2>
       <h3>Net-Zero By 2040</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -207,9 +324,11 @@
         by 2040, building on years of environmental initiatives.
       </p>
     </div>
+    </div>
 
     <!-- Card 8: Intel reaches 99 percent renewable electricity usage. -->
-    <div id="Card-8-2023">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-8-2023" class="milestone-card">
       <h2>2023</h2>
       <h3>Renewable Electricity</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -220,9 +339,11 @@
         toward Intel's long-term sustainability goals.
       </p>
     </div>
+    </div>
 
     <!-- Card 9: Intel hosts its first Sustainability Summit. -->
-    <div id="Card-9-2024">
+    <div class="col-12 col-md-6 col-xl-4">
+    <div id="Card-9-2024" class="milestone-card">
       <h2>2024</h2>
       <h3>Sustainability Summit</h3>
       <!-- The image is placed behind the card text with CSS. -->
@@ -233,11 +354,15 @@
         next-generation sustainable semiconductor manufacturing.
       </p>
     </div>
+    </div>
 
-    <!-- A final full-width photo closes the timeline. -->
-    <div class="image_lands_three">
+    <!-- Temporarily hidden separator image. -->
+    <!--
+    <div class="timeline-image image_lands_three">
       <img src="img/more_workers.jpg" alt="Staff at chipmaker Intel’s factory in Leixlip, Co Kildare. Photo: Intel " />
     </div>
+    -->
+      </div>
     
   </section>
   <!-- The footer contains links to Intel's social media pages. -->
@@ -259,5 +384,55 @@
     <img src="img/youtube-app-white-icon.png" alt="Intel on YouTube" />
   </a>
   </footer>
+
+  <script>
+    // Replace visible English text with Arabic when the browser language is Arabic.
+    const arabicTranslations = {
+      'Overview': 'نظرة عامة',
+      'Products': 'المنتجات',
+      'Support': 'الدعم',
+      'News & Events': 'الأخبار والفعاليات',
+      'SUSTAINABILITY': 'الاستدامة',
+      'Through The Ages': 'عبر العصور',
+      "Explore Intel's journey through time, discovering how our commitment to innovation has shaped a more sustainable future for technology and our planet.": 'اكتشف رحلة إنتل عبر الزمن، وتعرّف على كيفية مساهمة التزامنا بالابتكار في بناء مستقبل أكثر استدامة للتكنولوجيا وكوكبنا.',
+      'Scroll to view timeline | Hover over cards to learn more': 'مرر لعرض الخط الزمني | مرر فوق البطاقات لمعرفة المزيد',
+      'Milestones at a Glance': 'المحطات الرئيسية في لمحة',
+      'Intel Founded': 'تأسيس إنتل',
+      'First Microprocessor': 'أول معالج دقيق',
+      '8086 Processor': 'معالج 8086',
+      '386 Processor': 'معالج 386',
+      'Peak GHG Emissions': 'ذروة انبعاثات غازات الدفيئة',
+      'RISE Strategy': 'استراتيجية RISE',
+      'Net-Zero By 2040': 'صافي انبعاثات صفري بحلول 2040',
+      'Renewable Electricity': 'الكهرباء المتجددة',
+      'Sustainability Summit': 'قمة الاستدامة',
+      'Sustainability Priorities': 'أولويات الاستدامة',
+      'Commitment': 'الالتزام',
+      'Water & Waste': 'المياه والنفايات',
+      'Learn More': 'معرفة المزيد',
+      "Intel's Sustainability Milestones": 'محطات إنتل في مجال الاستدامة',
+      '1968': '1968',
+      '1971': '1971',
+      '1978': '1978',
+      '1985': '1985',
+      '2006': '2006',
+      '2020': '2020',
+      '2022': '2022',
+      '2023': '2023',
+      '2024': '2024'
+    };
+
+    if (isArabic) {
+      document.querySelectorAll('h1, h2, h3, p, a, strong').forEach((element) => {
+        const text = element.textContent.trim().replace(/\s+/g, ' ');
+        if (arabicTranslations[text]) {
+          element.textContent = arabicTranslations[text];
+        }
+      });
+    }
+  </script>
+
+  <!-- Bootstrap's JavaScript bundle enables interactive components. -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

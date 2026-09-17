@@ -1,110 +1,101 @@
+/* Base page styles and color variables. */
 :root {
-  /* Reusable colors keep the design consistent and make future changes easier. */
   --intel-blue: #0068b5;
   --energy-blue: #00c7fd;
   --navy: #000f28;
   --light-blue: #dfe9fe;
+  --ink: #102235;
+  --muted-ink: #536577;
+  --cloud: #f4f8fb;
+  --mist: #e8f2f3;
+  --sustainability-teal: #16877d;
+  --sustainability-green: #5d9b55;
+  --sustainability-gold: #c58a32;
+  --white: #fff;
 }
 
 * {
-  /* Include padding and borders inside an element's declared width. */
   box-sizing: border-box;
 }
 
 html {
-  /* Animate movement when a visitor jumps to another part of the page. */
   scroll-behavior: smooth;
 }
 
-/* Add your CSS here */
-
-/* Color Palette 
-ighf-h-color-black: #000;
-    --ighf-h-color-white: #fff;
-    --ighf-h-color-gray-light: #d7d7d7;
-    --ighf-h-color-gray-light2: #d8d8d8;
-    --ighf-h-color-classic-blue: #0068b5;
-    --ighf-h-color-classic-blue-shade1: #004a86;
-    --ighf-h-color-energy-blue: #00c7fd;
-    --ighf-h-color-carbon-shade2: #262626;
-    --ighf-h-color-carbon-shade1: #525252;
-    --ighf-h-color-carbon-web: #f7f7f7;
-    --ighf-h-color-carbon: gray;
-    --ighf-h-color-carbon-disabled: #6a6d75;
-    --ighf-h-color-search-blue: #000f28;
-    --ighf-h-color-search-hover-blue: #2d76ff;
-
-    --background-accent-light: #276ef2;
-    --background-accent: #0046c8;
-    --background-brand: #00c7fd;
-    --background-default: #fff;
-    --background-inverse-accent: #000f28;
-    --background-inverse: #000f28;
-    --background-subtle: #eef4fe;
-    --background-subtle-dark: #dfe9fe;
-
-    --border-focus: rgba(0, 70, 200, 0.6);
-    --effects-focus-shadow: rgba(0, 70, 200, 0.1215686275);
-*/
-
-body{
-  /* Remove the browser's default page margin and set the dark base color. */
+body {
   margin: 0;
   background-color: var(--navy);
-  color: white;
+  color: var(--white);
 }
 
-/* Header and Navigation Styles */
+/* Header and navigation styles. */
 header {
-  /* Place the logo and navigation at opposite sides of the header. */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /*background-color: #0046c8; */
+  background-color: var(--navy);
   margin: auto;
   padding: 2rem;
 }
 
-header img{
-  /* Give the header logo a small, predictable size. */
+header img {
   width: 50px;
   height: auto;
 }
 
 nav {
-  /* Display navigation links in a horizontal row with space between them. */
   display: flex;
   gap: 2rem;
 }
 
-nav a{
-  /* Style each navigation link so it is readable on the dark background. */
-  color: #fff;
+nav a {
+  color: var(--white);
   text-decoration: none;
   font-weight: bold;
   font-family: "Intel One Mono", sans-serif;
   font-size: 15px;
-  text-align: center;
   display: inline-block;
 }
 
 nav a:hover {
-  /* Highlight a link when the pointer moves over it. */
-  color: #00c7fd;
+  color: var(--energy-blue);
   transform: scale(1.05);
 }
 
-/* Hero Section Styles */
+/* Hero section styles. */
 #hero{
   /* Stack and center all introductory content vertically. */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  isolation: isolate;
   max-width: 900px;
   min-height: 70vh;
   margin: auto;
   padding: 2rem;
+}
+
+#hero::before {
+  /* Extend the hero image across the full viewport without widening its content. */
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  z-index: -1;
+  width: 100vw;
+  background-image:
+    linear-gradient(rgba(0, 15, 40, 0.8), rgba(0, 15, 40, 0.88)),
+    url("img/article_cover.jpg");
+  background-position: center;
+  background-size: cover;
+  content: "";
+  transform: translateX(-50%);
+}
+
+#hero > * {
+  position: relative;
+  z-index: 1;
 }
 
 #hero h1 {
@@ -156,7 +147,7 @@ nav a:hover {
   font-weight: bold;
 }
 
-/* Quick Timeline Styles */
+/* Milestones at a Glance timeline styles. */
 .milestone-timeline {
   /* Keep the overview wide enough for horizontal scrolling. */
   width: 100%;
@@ -202,6 +193,14 @@ nav a:hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.timeline-step:nth-child(3n + 2) {
+  border-left-color: var(--sustainability-teal);
+}
+
+.timeline-step:nth-child(3n) {
+  border-left-color: var(--sustainability-gold);
+}
+
 .timeline-step:hover,
 .timeline-step:focus-visible {
   transform: translateY(-4px);
@@ -227,6 +226,7 @@ nav a:hover {
   line-height: 1.3;
 }
 
+/* Hero image styles. */
 #hero .hero-images {
   /* Keep the two hero images centered in one row. */
   display: flex;
@@ -244,25 +244,32 @@ nav a:hover {
   object-fit: contain;
 }
 
-#hero + section {
-  /* Create a wrapping card layout with a light background transition. */
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
-  background: linear-gradient(
-    to bottom,
-    var(--light-blue) 0%,
-    #fff 25rem
-  );
-  color: #000;
+#hero .hero-logo {
+  max-width: 100%;
 }
 
-#hero + section > div {
-  /* Give each direct child a one-third desktop column and card surface. */
+/* Sustainability milestones timeline card styles. */
+.timeline-section {
+  /* Create a centered Bootstrap card grid with a light background transition. */
+  padding: 2rem clamp(1rem, 4vw, 3rem);
+  background: linear-gradient(
+    to bottom,
+    var(--mist) 0%,
+    var(--cloud) 65%,
+    var(--white) 100%
+  );
+  color: var(--ink);
+}
+
+.timeline-section > .row {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.milestone-card {
+  /* Give each milestone card its surface and spacing. */
   box-sizing: border-box;
-  flex: 0 0 calc((100% - 4rem) / 3);
-  background-color: #fff;
+  background-color: #001b3d;
   border: 0;
   border-radius: 8px;
   box-shadow: 0 10px 24px rgba(0, 15, 40, 0.16);
@@ -271,29 +278,99 @@ nav a:hover {
 }
 
 .timeline-heading {
-  /* Make the timeline heading span the full width above the cards. */
-  flex: 0 0 100%;
+  /* Center the timeline heading above the Bootstrap grid. */
   color: var(--navy);
-  font-family: "Intel One Mono", sans-serif;
+  font-family: Roboto, sans-serif;
+  font-weight: 700;
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   line-height: 1.2;
   margin: 0;
   text-align: center;
 }
 
-#hero + section > div[id^="Card-"] {
+/* Sustainability Priorities Bootstrap card section. */
+/* Give the Bootstrap cards more space and make their text easier to read. */
+.sustainability-priorities {
+  width: min(calc(100vw - 2rem), 1200px);
+  max-width: 1200px;
+  margin-left: 0;
+  margin-right: 0;
+  color: var(--ink);
+}
+
+.sustainability-priorities > h2 {
+  color: var(--ink);
+  font-family: Roboto, sans-serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sustainability-priorities .card {
+  height: 100%;
+  background: var(--white);
+  border: 0;
+  border-top: 4px solid var(--intel-blue);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0, 15, 40, 0.3);
+  color: var(--ink);
+}
+
+.sustainability-priorities .col-md-4:nth-child(2) .card {
+  border-top-color: var(--sustainability-green);
+}
+
+.sustainability-priorities .col-md-4:nth-child(3) .card {
+  border-top-color: var(--sustainability-gold);
+}
+
+.sustainability-priorities .col-md-4:nth-child(2) .card-title {
+  color: var(--sustainability-green);
+}
+
+.sustainability-priorities .col-md-4:nth-child(3) .card-title {
+  color: var(--sustainability-gold);
+}
+
+.sustainability-priorities .card-body {
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.sustainability-priorities .card-title {
+  overflow: visible;
+  color: var(--energy-blue);
+  font-family: Roboto, sans-serif;
+  font-size: clamp(0.95rem, 1.55vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.8rem;
+  white-space: nowrap;
+}
+
+.sustainability-priorities .card-text {
+  color: var(--muted-ink);
+  font-family: Roboto, sans-serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+/* Intel's Sustainability Milestones cards section. */
+.milestone-card {
   /* Prepare cards for layered images and text. */
   position: relative;
-  min-height: 24rem;
+  min-height: 20rem;
   overflow: hidden;
   isolation: isolate;
 }
 
-#hero + section > div[id^="Card-"]::before {
+.milestone-card::before {
   /* This overlay becomes a white reading surface when the card is hovered. */
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0.98) 0%,
@@ -305,7 +382,27 @@ nav a:hover {
   transition: opacity 0.3s ease;
 }
 
-#hero + section > div[id^="Card-"] > img {
+.milestone-card::after {
+  /* Keep text readable before the visitor hovers over a card. */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 15, 40, 0.48);
+  content: "";
+  transition: opacity 0.3s ease;
+}
+
+/* Reverse the reading overlay when the page uses right-to-left text. */
+html[dir="rtl"] .milestone-card::before {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(255, 255, 255, 0.9) 42%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+}
+
+.milestone-card > img {
   /* Position each card image behind the text and crop it to fill the card. */
   position: absolute;
   inset: 0;
@@ -318,88 +415,94 @@ nav a:hover {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-#hero + section > div[id^="Card-"] > h2,
-#hero + section > div[id^="Card-"] > h3,
-#hero + section > div[id^="Card-"] > p {
+.milestone-card > h2,
+.milestone-card > h3,
+.milestone-card > p {
   /* Keep card text above the background image and overlay. */
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
-#hero + section > div:hover {
+.milestone-card:hover {
   /* Lift cards slightly to show which card is being explored. */
   transform: translateY(-6px);
   box-shadow: 0 16px 30px rgba(0, 15, 40, 0.22);
 }
 
-#hero + section > div[id^="Card-"]:hover::before {
+.milestone-card:hover::before {
   /* Reveal the white text-readable overlay on hover. */
   opacity: 1;
 }
 
-#hero + section > div[id^="Card-"]:hover > img {
+.milestone-card:hover::after {
+  opacity: 0.12;
+}
+
+.milestone-card:hover > img {
   /* Make the image softer while the visitor reads the card. */
   opacity: 0.28;
   transform: scale(1.03);
 }
 
-#Card-1-1968 > img,
-#Card-2-1971 > img,
-#Card-3-1978 > img,
-#Card-4-1985 > img,
-#Card-5-2006 > img,
-#Card-6-2020 > img,
-#Card-7-2022 > img,
-#Card-8-2023 > img,
-#Card-9-2024 > img {
+.milestone-card > img {
   /* Center most photos so their main subject stays visible. */
   object-position: center;
 }
 
-#Card-6-2020 > img,
-#Card-7-2022 > img {
+.milestone-card--top-image > img {
   /* Keep the upper part of these images visible during cropping. */
   object-position: top;
 }
 
-#hero + section > div[id^="Card-"] h2 {
+.milestone-card h2 {
   /* Use blue for the year to connect it to Intel's visual identity. */
-  color: #0068b5;
+  color: var(--energy-blue);
   font-family: "Intel One Mono", sans-serif;
-  font-size: 2rem;
-  line-height: 1;
+  font-size: clamp(2.1rem, 3vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.1;
   margin: 0 0 0.75rem;
 }
 
-#hero + section > div[id^="Card-"] h3 {
+.milestone-card h3 {
   /* Give each milestone title a strong, readable heading style. */
-  color: #000f28;
+  color: #fff;
   font-family: "Intel One Mono", sans-serif;
-  font-size: 1.15rem;
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 700;
   line-height: 1.3;
   margin: 0 0 1rem;
 }
 
-#hero + section > div[id^="Card-"] p {
-  /* Hide card descriptions until the visitor hovers over a card. */
-  color: #262626;
+.milestone-card p {
+  /* Keep card descriptions visible and emphasize them on hover. */
+  color: #fff;
   font-family: Roboto, sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.6;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  font-weight: 600;
+  line-height: 1.55;
   margin: 0;
-  opacity: 0;
+  opacity: 0.9;
   transition: opacity 0.3s ease;
 }
 
-#hero + section > div[id^="Card-"]:hover p {
+
+
+.milestone-card:hover p {
   /* Show the slightly bolder description when the card is hovered. */
   opacity: 1;
 }
 
-#hero + section > .image_lands_one,
-#hero + section > .image_lands_two,
-#hero + section > .image_lands_three {
+.milestone-card:hover h2 {
+  color: var(--intel-blue);
+}
+
+.milestone-card:hover h3,
+.milestone-card:hover p {
+  color: #262626;
+}
+
+.timeline-image {
   /* Make each timeline photo span the full row instead of one card column. */
   flex: 0 0 100%;
   padding: 0;
@@ -409,16 +512,12 @@ nav a:hover {
   animation: none;
 }
 
-#hero + section > .image_lands_one:hover,
-#hero + section > .image_lands_two:hover,
-#hero + section > .image_lands_three:hover {
+.timeline-image:hover {
   /* Keep full-width photos from behaving like interactive cards. */
   transform: none;
 }
 
-#hero + section > .image_lands_one img,
-#hero + section > .image_lands_two img,
-#hero + section > .image_lands_three img {
+.timeline-image img {
   /* Add consistent sizing, rounded corners, and separation from the page. */
   display: block;
   width: 100%;
@@ -439,19 +538,19 @@ nav a:hover {
 
 @supports (animation-timeline: view()) {
   /* Use scroll-based animation only in browsers that support it. */
-  #hero + section > div {
+  .milestone-card {
     animation: card-fade-in linear both;
     animation-timeline: view();
     animation-range: entry 10% cover 50%;
   }
 }
 
-#hero + section + p {
+.timeline-section + p {
   /* Set the color of a paragraph immediately after the timeline section. */
   color: #000;
 }
 
-/* Footer Styles */
+/* Footer and social link styles. */
 footer {
   /* Center social links in a horizontal row. */
   display: flex;
@@ -496,7 +595,7 @@ footer a:focus-visible {
   outline-offset: 3px;
 
 }
-/* Media Queries for Responsive Design */
+/* Responsive styles for smaller screens. */
 
 /* Adjust the header for mobile */
 @media (max-width: 600px) {
@@ -589,24 +688,8 @@ footer a:focus-visible {
     max-width: calc(50% - 0.375rem);
   }
 
-  #hero + section {
-    /* Reduce timeline spacing and padding for a narrow screen. */
-    gap: 1rem;
-    padding: 1.5rem;
+  .sustainability-priorities {
     width: 100%;
-  }
-
-  #hero + section > div {
-    /* Stack cards into a single column on mobile. */
-    flex-basis: calc(100% - 1rem);
-    padding: 1.25rem;
-  }
-
-  #hero + section > .image_lands_one,
-  #hero + section > .image_lands_two,
-  #hero + section > .image_lands_three {
-    /* Keep timeline photos full-width in the mobile column. */
-    flex-basis: calc(100% - 1rem);
   }
 
   footer {
